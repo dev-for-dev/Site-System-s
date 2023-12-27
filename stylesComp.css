@@ -1,0 +1,62 @@
+body {
+    margin: 0;
+    margin-top: 30px;
+    font-family: Arial, sans-serif;
+    background-color: #3a3939; /* Fundo roxo escuro */
+    color: #ffffff; /* Texto cinza */
+}
+
+#container {
+    width: 400px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    background-color: #483D8B; /* Fundo roxo escuro */
+    padding: 20px;
+    border-radius: 10px; /* Bordas arredondadas */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra */
+    margin-top: 20px;
+}
+
+label {
+    color: #ccc; /* Texto cinza */
+    margin-bottom: 5px;
+}
+
+input,select {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc; /* Borda cinza */
+    border-radius: 5px; /* Bordas arredondadas */
+    background-color: #eee; /* Fundo cinza claro */
+    color: #333; /* Texto preto */
+}
+
+button {
+    padding: 10px;
+    background-color: #800080; /* Roxo mais intenso */
+    color: #fff; /* Texto branco */
+    border: none;
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #4B0082; /* Roxo mais escuro ao passar o mouse */
+}
+
+#formattedText {
+    background-color: #ddd; /* Fundo cinza claro para o texto formatado */
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}

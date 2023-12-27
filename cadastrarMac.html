@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de MAC</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+    
+    <div id="container">
+        <a href="index.html"><button type="button">Inicio</button></a>
+        <h1>Cadastro de MAC</h1>
+
+        <form id="macForm">
+            <label for="onuInput">MAC Address (ONU)</label>
+            <input type="text" id="onuInput" pattern="[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}" maxlength="17"
+                placeholder="Digite o MAC da ONU (12 caracteres hexadecimais)" required>
+
+            <label for="routerInput">MAC Address (Roteador)</label>
+            <input type="text" id="routerInput" pattern="[0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5}" maxlength="17"
+                placeholder="Digite o MAC do Roteador (12 caracteres hexadecimais)" required>
+
+
+        </form>
+        <button type="button" onclick="addMac('onuInput', 'onuList')">Adicionar ONU</button>
+        <button type="button" onclick="addMac('routerInput', 'routerList')">Adicionar Roteador</button>
+        <form id="macCopy">
+            <div>
+                <h2>MACS ONUS</h2>
+                <div id="onuList"></div>
+            </div>
+            <div>
+                <h2>MACS ROTEADORES</h2>
+                <div id="routerList"></div>
+            </div>
+
+            
+        </form>
+        <button type="button" onclick="copyMacs()">Copiar MACs</button>
+    </div>
+    <script>
+        function addMac(inputId, listId) {
+            const macInput = document.getElementById(inputId);
+            const macList = document.getElementById(listId);
+
+            if (macInput.checkValidity()) {
+                const mac = macInput.value.toUpperCase();
+
+                // Verificar duplicatas
+                if (!isMacDuplicate(mac)) {
+                    const newMac = `${mac}`;
+
+                    const macItem = document.createElement('div');
+                    macItem.textContent = newMac;
+
+                    macList.appendChild(macItem);
+
+                    macInput.value = '';
+                } else {
+                    alert('Este MAC já foi cadastrado.');
+                }
+            } else {
+                alert('Por favor, insira um endereço MAC válido.');
+            }
+        }
+
+        function isMacDuplicate(mac) {
+            const onuList = document.getElementById('onuList');
+            const routerList = document.getElementById('routerList');
+
+            return Array.from(onuList.children).some(item => item.textContent === mac) ||
+                Array.from(routerList.children).some(item => item.textContent === mac);
+        }
+
+        function copyMacs() {
+            const onuList = document.getElementById('onuList');
+            const routerList = document.getElementById('routerList');
+
+            const onuMacs = Array.from(onuList.children).map(item => item.textContent).join('\n');
+            const routerMacs = Array.from(routerList.children).map(item => item.textContent).join('\n');
+
+            // Copy to clipboard
+            const textarea = document.createElement('textarea');
+            textarea.value = `ONUS\n${onuMacs}\n\nROTEADORES\n${routerMacs}`;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            // Clear macList
+            onuList.innerHTML = '';
+            routerList.innerHTML = '';
+        }
+
+        // Adiciona ":" a cada 2 dígitos
+        document.getElementById('onuInput').addEventListener('input', formatMacInput);
+        document.getElementById('routerInput').addEventListener('input', formatMacInput);
+
+        function formatMacInput(event) {
+            const input = event.target;
+            const sanitizedValue = input.value.replace(/[^0-9a-fA-F]/g, ''); // Remove caracteres não hexadecimais
+            const formattedValue = sanitizedValue.match(/.{1,2}/g).join(':');
+            input.value = formattedValue;
+        }
+    </script>
+</body>
+
+</html>
